@@ -1,0 +1,784 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار شخصية الأنمي - اكتشف من يشبهك!</title>
+    <!-- خطوط Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: url('https://i.ibb.co/tpf7fBPh/back.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+            /* طبقة شفافة فوق الخلفية */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('https://www.transparenttextures.com/patterns/anime-pattern.png') repeat;
+                opacity: 0.05;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* أنيميشن للظهور */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .start-screen, .quiz-screen, .result-screen {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+            h1 i {
+                margin: 0 10px;
+            }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+            .option:hover {
+                background: rgba(255,255,255,0.25);
+                transform: translateX(8px);
+                border-color: rgba(255,255,255,0.5);
+            }
+
+            .option.selected {
+                background: rgba(255,107,107,0.5);
+                border-color: #ff6b6b;
+                box-shadow: 0 0 15px rgba(255,107,107,0.3);
+            }
+
+        .option-text {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .option-icon {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        /* شريط التقدم */
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* أزرار */
+        .btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+            }
+
+        .gender-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .gender-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+            .gender-btn:hover {
+                background: #ff6b6b;
+            }
+
+        /* بطاقة النتيجة */
+        .result-card {
+            text-align: center;
+        }
+
+            .result-card img {
+                max-width: 220px;
+                border-radius: 50%;
+                margin: 20px 0;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                border: 4px solid rgba(255,255,255,0.5);
+                transition: transform 0.3s;
+            }
+
+                .result-card img:hover {
+                    transform: scale(1.02);
+                }
+
+        .result-name {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffd93d;
+            margin-bottom: 5px;
+        }
+
+        .result-anime {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+        }
+
+        .result-similarity {
+            background: rgba(0,0,0,0.3);
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        /* أزرار المشاركة */
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .share-btn i {
+                font-size: 16px;
+            }
+
+            .share-btn:hover {
+                transform: translateY(-3px);
+            }
+
+        .facebook {
+            background: #1877f2;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        .whatsapp {
+            background: #25d366;
+        }
+
+        .copy-link {
+            background: #6c5ce7;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44bdaf);
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* تأثير اهتزاز للتنبيه */
+        @keyframes shake {
+            0%,100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .start-screen, .quiz-screen, .result-screen {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .option-text {
+                font-size: 14px;
+            }
+
+            .result-name {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app"></div>
+
+    <script>
+        // ============================================
+        // البيانات: جميع الشخصيات (من ملف Excel الخاص بك)
+        // ============================================
+        const characters = [
+            { name: "eren", displayName: "إيرين ييغر", anime: "attack", traits: ["حرية", "إنتقام", "عمالقة"], similarity: "السعي للحرية مهما كان الثمن", image: "https://i.ibb.co/6JcyjvSc/eren.jpg", gender: "male" },
+            { name: "levi", displayName: "ليفاي أكرمان", anime: "attack", traits: ["نظافة", "قوة", "برود"], similarity: "الانضباط والدقة بلا تهاون", image: "https://i.ibb.co/hxFzY04B/levi.jpg", gender: "male" },
+            { name: "mikasa", displayName: "ميكاسا أكرمان", anime: "attack", traits: ["ولاء", "وشاح", "قوة"], similarity: "الولاء والحماية لمن تحب", image: "https://i.ibb.co/wrSj52nh/mikasa.jpg", gender: "female" },
+            { name: "armin", displayName: "أرمين أرليرت", anime: "attack", traits: ["ذكاء", "سلام", "محيط"], similarity: "الذكاء والتحليل قبل التصرف", image: "https://i.ibb.co/jPjhhxMT/armin.jpg", gender: "male" },
+            { name: "erwin", displayName: "إيروين سميث", anime: "attack", traits: ["قائد", "تضحية", "حلم"], similarity: "التضحية من أجل الحقيقة والإنسانية", image: "https://i.ibb.co/SDc58Fz3/erwin.jpg", gender: "male" },
+            { name: "jean", displayName: "جان كيرشتاين", anime: "attack", traits: ["واقعية", "قيادة", "حصان"], similarity: "الواقعية والقيادة من أجل البقاء", image: "https://i.ibb.co/VcLLsXfL/jean.jpg", gender: "male" },
+            { name: "annie", displayName: "آني ليونهارت", anime: "attack", traits: ["بلورة", "عزلة", "فنون-قتالية"], similarity: "القوة الصامتة والحذر من الآخرين", image: "https://i.ibb.co/1Y8z9FPD/annie.jpg", gender: "female" },
+            { name: "zeke", displayName: "زيك ييغر", anime: "attack", traits: ["خطة", "قرد", "صدمة"], similarity: "التخطيط البعيد دون مشاعر مفرطة", image: "https://i.ibb.co/p6x3V8dx/zeke.jpg", gender: "male" },
+            { name: "reiner", displayName: "راينر براون", anime: "attack", traits: ["قوي", "ممزق", "مخلص"], similarity: "القوة مع صراع داخلي دائم", image: "https://i.ibb.co/MDtpyDzY/reiner.jpg", gender: "male" },
+            { name: "hange", displayName: "هانجي زوي", anime: "attack", traits: ["فضولية", "مجنونة", "عبقرية"], similarity: "الشغف بالمعرفة والتجارب الجديدة", image: "https://i.ibb.co/B5zZDcCw/hange.jpg", gender: "female" },
+            { name: "asta", displayName: "أستا", anime: "black", traits: ["مصر", "صاخب", "شجاع"], similarity: "الإصرار رغم عدم وجود موهبة", image: "https://i.ibb.co/VYwMRGNk/asta.jpg", gender: "male" },
+            { name: "charlotte", displayName: "شاروليت روزلاي", anime: "black", traits: ["قوية", "خجولة", "متناقضة"], similarity: "القوة مع مشاعر داخلية متناقضة", image: "https://i.ibb.co/ynZMbJMJ/charlotte.jpg", gender: "female" },
+            { name: "finral", displayName: "فينرال روني", anime: "black", traits: ["هادئ", "ذكي", "مراوغ"], similarity: "الذكاء الاجتماعي وتجنب المواجهات", image: "https://i.ibb.co/JRTL0GhY/finral.jpg", gender: "male" },
+            { name: "gray", displayName: "غراي", anime: "black", traits: ["خجولة", "غامضة", "متحولة"], similarity: "الخجل مع قدرات خارقة مخفية", image: "https://i.ibb.co/Fkz6jc50/gray.jpg", gender: "female" },
+            { name: "jack", displayName: "جاك زيرادو", anime: "black", traits: ["شرس", "مدمر", "قاسٍ"], similarity: "الشراسة والتركيز على تدمير الخصم", image: "https://i.ibb.co/6ckWYyWw/jack.jpg", gender: "male" },
+            { name: "noelle", displayName: "نويل سيلفا", anime: "black", traits: ["قوية", "مترددة", "نبيلة"], similarity: "القوة الخفية رغم عدم الثقة بالنفس", image: "https://i.ibb.co/LdCkhb55/noelle.jpg", gender: "female" },
+            { name: "mereoleona", displayName: "ميرولينا فيرميليون", anime: "black", traits: ["شرسة", "جريئة", "قتالية"], similarity: "الشجاعة الجامحة وحب القتال الحقيقي", image: "https://i.ibb.co/G45z9zxS/mereoleona.jpg", gender: "female" },
+            { name: "magna", displayName: "ماغنا سونغ", anime: "black", traits: ["كريم", "شعبي", "مخلص"], similarity: "الكبرياء الشعبية والإخلاص للأصدقاء", image: "https://i.ibb.co/vtJZ8nk/magna.jpg", gender: "male" },
+            { name: "luck", displayName: "لاك فولتيا", anime: "black", traits: ["مرح", "مندفع", "مقاتل"], similarity: "حب المعارك والاندفاع المرح", image: "https://i.ibb.co/jZVxNrDY/luck.jpg", gender: "male" },
+            { name: "liebe", displayName: "ليبي", anime: "black", traits: ["غاضب", "شيطاني", "طموح"], similarity: "الكراهية للشياطين والسعي للقوة", image: "https://i.ibb.co/Q7QjykQr/liebe.jpg", gender: "male" },
+            { name: "secre", displayName: "سيكري", anime: "black", traits: ["صبورة", "مخلصة", "صامتة"], similarity: "الصبر والتضحية الصامتة لسنوات طويلة", image: "https://i.ibb.co/FkxHD4B4/secre.jpg", gender: "female" },
+            { name: "vanessa", displayName: "فانيسا إينوتيكا", anime: "black", traits: ["حرة", "ساخرة", "ذكية"], similarity: "الحرية والسخرية مع قدرات القدر", image: "https://i.ibb.co/zh1wHDWH/vanessa.jpg", gender: "female" },
+            { name: "vanica", displayName: "فانيكا", anime: "black", traits: ["قاسية", "مجنونة", "سادية"], similarity: "القسوة والاستمتاع بمعاناة الخصوم", image: "https://i.ibb.co/CsTzPK2z/vanica.jpg", gender: "female" },
+            { name: "yami", displayName: "يامي سوكيهيرو", anime: "black", traits: ["غامض", "قوي", "حدسي"], similarity: "القوة الغامضة والحدس القوي المميت", image: "https://i.ibb.co/LmRWQSc/yami.jpg", gender: "male" },
+            { name: "yuno", displayName: "يونو", anime: "black", traits: ["موهوب", "هادئ", "منافس"], similarity: "الموهبة الطبيعية والهدوء التنافسي", image: "https://i.ibb.co/ZRsCSHgZ/yuno.jpg", gender: "male" },
+            { name: "gojo", displayName: "غوجو ساتورو", anime: "jujutsu", traits: ["قوي", "واثق", "مرح"], similarity: "القوة المطلقة مع ثقة فائقة بالنفس", image: "https://i.ibb.co/5WCt8Gzm/gojo.jpg", gender: "male" },
+            { name: "maki", displayName: "ماكي زينين", anime: "jujutsu", traits: ["قوية", "متمردة", "صارمة"], similarity: "القوة البشرية رغم عدم امتلاك طاقة", image: "https://i.ibb.co/ksXT8jPy/maki.jpg", gender: "female" },
+            { name: "megumi", displayName: "ميغومي فوشيغورو", anime: "jujutsu", traits: ["جاد", "ذكي", "مظلم"], similarity: "التضحية بالنفس من أجل الآخرين", image: "https://i.ibb.co/FLPW2H8F/megumi.jpg", gender: "male" },
+            { name: "mei_mei", displayName: "مي مي", anime: "jujutsu", traits: ["جشعة", "قوية", "ذكية"], similarity: "حب المال مع قتال احترافي", image: "https://i.ibb.co/jkdKNzv8/mei-mei.png", gender: "female" },
+            { name: "nanami", displayName: "نانامي كينتو", anime: "jujutsu", traits: ["جاد", "مسؤول", "متعب"], similarity: "الإخلاص للعمل مع قناعة داخلية", image: "https://i.ibb.co/G3Nnk0CD/nanami.jpg", gender: "male" },
+            { name: "yuji", displayName: "يوجي إيتادوري", anime: "jujutsu", traits: ["شجاع", "مخلص", "قوي"], similarity: "حماية الآخرين رغم الخطر الداخلي", image: "https://i.ibb.co/spHgyTZ0/yuji.jpg", gender: "male" },
+            { name: "toji", displayName: "توجي فوشيغورو", anime: "jujutsu", traits: ["خطر", "قوي", "متهور"], similarity: "القوة الجسدية الخارقة دون طاقة سحرية", image: "https://i.ibb.co/d4C1mcRz/toji.jpg", gender: "male" },
+            { name: "sukuna", displayName: "سوكونا", anime: "jujutsu", traits: ["شرس", "متعجرف", "مدمر"], similarity: "القوة المطلقة مع حب السيطرة", image: "https://i.ibb.co/pjv43nzg/sukuna.jpg", gender: "male" },
+            { name: "shoko", displayName: "شوكو إيري", anime: "jujutsu", traits: ["هادئة", "عملية", "مدخنة"], similarity: "الشفاء دون مشاعر تجاه الموتى", image: "https://i.ibb.co/M3dsr0r/shoko.jpg", gender: "female" },
+            { name: "nobara", displayName: "نوبارا كوغيساكي", anime: "jujutsu", traits: ["واثقة", "قوية", "جريئة"], similarity: "الثقة بالنفس مع حب الموضة", image: "https://i.ibb.co/ZRRP0ch5/nobara.jpg", gender: "female" },
+            { name: "beerus", displayName: "بيروس", anime: "dragon", traits: ["مدمر", "كسول", "جائع"], similarity: "القوة المطلقة مع حب الطعام", image: "https://i.ibb.co/0jKhLVWG/beerus.jpg", gender: "male" },
+            { name: "broly", displayName: "برولي", anime: "dragon", traits: ["وحشي", "غاضب", "خارق"], similarity: "القوة اللامحدودة مع فقدان السيطرة", image: "https://i.ibb.co/4gPR5ZKJ/broly.jpg", gender: "male" },
+            { name: "goku", displayName: "غوكو", anime: "dragon", traits: ["طيب", "شجاع", "محارب"], similarity: "حب القتال مع قلب نقي", image: "https://i.ibb.co/5gxfsbJN/goku.jpg", gender: "male" },
+            { name: "piccolo", displayName: "بيكولو", anime: "dragon", traits: ["جاد", "حكيم", "قوي"], similarity: "التضحية والتدريب من أجل الآخرين", image: "https://i.ibb.co/XxK0mYJf/piccolo.jpg", gender: "male" },
+            { name: "bulma", displayName: "بولما", anime: "dragon", traits: ["ذكية", "جريئة", "أنيقة"], similarity: "الذكاء التكنولوجي مع شخصية قوية", image: "https://i.ibb.co/bffG5KS/bulma.jpg", gender: "female" },
+            { name: "frieza", displayName: "فريزا", anime: "dragon", traits: ["شرير", "ذكي", "قاسٍ"], similarity: "القسوة والذكاء مع حب السيطرة", image: "https://i.ibb.co/xS76D50y/frieza.jpg", gender: "male" },
+            { name: "vegeta", displayName: "فيجيتا", anime: "dragon", traits: ["فخور", "عنيد", "قوي"], similarity: "الكبرياء الملكي مع السعي للتطوير", image: "https://i.ibb.co/FLmC20rB/vegeta.jpg", gender: "male" },
+            { name: "gohan", displayName: "غوهان", anime: "dragon", traits: ["ذكي", "لطيف", "قوي"], similarity: "القوة الخفية مع حب الدراسة", image: "https://i.ibb.co/k6DZPH2s/gohan.jpg", gender: "male" },
+            { name: "whis", displayName: "ويس", anime: "dragon", traits: ["غامض", "هادئ", "قوي"], similarity: "الحكمة الخفية مع حب الطعام", image: "https://i.ibb.co/B2zfK3FS/whis.jpg", gender: "male" },
+            { name: "trunks", displayName: "ترانكس", anime: "dragon", traits: ["جاد", "قوي", "مستقبلي"], similarity: "القوة والسيوف مع ماضٍ مؤلم", image: "https://i.ibb.co/Zz6kt0RH/trunks.jpg", gender: "male" },
+            { name: "l", displayName: "إل (L)", anime: "death", traits: ["عبقري", "غريب", "وحيد"], similarity: "الذكاء الخارق مع سلوكيات غريبة", image: "https://i.ibb.co/jCJsMjj/1.jpg", gender: "male" },
+            { name: "light", displayName: "لايت ياغامي", anime: "death", traits: ["عبقري", "طموح", "مجرم"], similarity: "الذكاء الخارق مع الرغبة بالسيطرة", image: "https://i.ibb.co/q30Y4V5d/light.jpg", gender: "male" },
+            { name: "mello", displayName: "ميلو", anime: "death", traits: ["مندفع", "عاطفي", "طموح"], similarity: "العاطفة والاندفاع مع ذكاء حاد", image: "https://i.ibb.co/9mztMfJ9/mello.jpg", gender: "male" },
+            { name: "misa", displayName: "ميسا أماني", anime: "death", traits: ["مخلصة", "عاطفية", "عفوية"], similarity: "الإخلاص الأعمى مع حب الاهتمام", image: "https://i.ibb.co/d0cx5hz1/misa.jpg", gender: "female" },
+            { name: "ryuk", displayName: "ريوك", anime: "death", traits: ["فضولي", "فوضوي", "شيطاني"], similarity: "حب التفاح والمرح على البشر", image: "https://i.ibb.co/B2DQpxW1/ryuk.jpg", gender: "male" },
+            { name: "gyomei", displayName: "غيومي هيماجيما", anime: "Demon", traits: ["ضخم", "باكي", "قوي"], similarity: "القوة الخارقة مع قلب حنون", image: "https://i.ibb.co/G3r7npr7/gyomei.jpg", gender: "male" },
+            { name: "inosuke", displayName: "إينوسوكي هاشيبيرا", anime: "Demon", traits: ["وحشي", "فخور", "شجاع"], similarity: "القوة الغريزية مع كبرياء مقاتل", image: "https://i.ibb.co/Cpx7B36g/inosuke.jpg", gender: "male" },
+            { name: "rengoku", displayName: "رينغوكو كوجو", anime: "Demon", traits: ["شجاع", "ملهم", "ناري"], similarity: "الشجاعة والإلهام مع قلب نقي", image: "https://i.ibb.co/TM11fZd2/rengoku.jpg", gender: "male" },
+            { name: "shinobu", displayName: "شينوبو كوتشو", anime: "Demon", traits: ["هادئة", "انتقامية", "ذكية"], similarity: "الابتسامة الدائمة مع غضب داخلي", image: "https://i.ibb.co/Vcyr5Ztd/shinobu.jpg", gender: "female" },
+            { name: "kanao", displayName: "كاناو تسويوري", anime: "Demon", traits: ["هادئة", "موهوبة", "مترددة"], similarity: "الموهبة الخارقة مع صعوبة الاختيار", image: "https://i.ibb.co/1YvB7G49/kanao.jpg", gender: "female" },
+            { name: "mitsuri", displayName: "ميتسوري كانروجي", anime: "Demon", traits: ["عاطفية", "قوية", "جميلة"], similarity: "القوة الخارقة مع قلب مليء بالحب", image: "https://i.ibb.co/JF0XZ85G/mitsuri.jpg", gender: "female" },
+            { name: "tamayo", displayName: "تامايو", anime: "Demon", traits: ["حكيمة", "هادئة", "طبيبة"], similarity: "الذكاء الطبي مع كراهية موزان", image: "https://i.ibb.co/GQkJfX59/tamayo.jpg", gender: "female" },
+            { name: "tanjiro", displayName: "تانجيرو كامادو", anime: "Demon", traits: ["طيب", "شجاع", "مصر"], similarity: "الإصرار على حماية العائلة بأي ثمن", image: "https://i.ibb.co/xqx0hP0n/tanjiro.jpg", gender: "male" },
+            { name: "nezuko", displayName: "نيزوكو كامادو", anime: "Demon", traits: ["لطيفة", "شيطانية", "مخلصة"], similarity: "القوة الخفية مع حماية الأخ", image: "https://i.ibb.co/gF6W4vLT/nezuko.jpg", gender: "female" },
+            { name: "zenitsu", displayName: "زينيتسو أغاتسوما", anime: "Demon", traits: ["جبان", "عاطفي", "قوي"], similarity: "القوة الخارقة فقط عند النوم", image: "https://i.ibb.co/kgQmhMJQ/zenitsu.jpg", gender: "male" },
+            { name: "gaara", displayName: "غارا", anime: "naruto", traits: ["وحيد", "قوي", "حامي"], similarity: "القوة الخارقة مع الحاجة للحب", image: "https://i.ibb.co/GQyJ55b8/gaara.jpg", gender: "male" },
+            { name: "madara", displayName: "مادارا أوتشيها", anime: "naruto", traits: ["طموح", "قوي", "متعجرف"], similarity: "السعي للسلطة المطلقة بلا حدود", image: "https://i.ibb.co/v4Bcy4FF/madara.jpg", gender: "male" },
+            { name: "hinata", displayName: "هيناتا هيوغا", anime: "naruto", traits: ["خجولة", "مخلصة", "شجاعة"], similarity: "الإخلاص للحب رغم الخجل والخوف", image: "https://i.ibb.co/LB25kNr/hinata.jpg", gender: "female" },
+            { name: "naruto", displayName: "ناروتو أوزوماكي", anime: "naruto", traits: ["مصر", "شجاع", "طيب"], similarity: "الإصرار على تحقيق الحلم رفضاً للوحدة", image: "https://i.ibb.co/9kkpSxKQ/naruto.jpg", gender: "male" },
+            { name: "itachi", displayName: "إيتاشي أوتشيها", anime: "naruto", traits: ["مضحٍ", "حكيم", "قوي"], similarity: "التضحية بالسمعة من أجل السلام", image: "https://i.ibb.co/nsKwxLhc/itachi.jpg", gender: "male" },
+            { name: "pain", displayName: "باين", anime: "naruto", traits: ["طموح", "متألم", "قوي"], similarity: "السعي للسلام عبر المعاناة والسيطرة", image: "https://i.ibb.co/qLbpRrb1/pain.jpg", gender: "male" },
+            { name: "sasuke", displayName: "ساسكي أوتشيها", anime: "naruto", traits: ["طموح", "بارد", "نادم"], similarity: "السعي للانتقام ثم البحث عن الحقيقة", image: "https://i.ibb.co/hFkzX4LY/sasuke.jpg", gender: "male" },
+            { name: "jiraiya", displayName: "جيرايا", anime: "naruto", traits: ["حكيم", "مرح", "مضحٍ"], similarity: "البحث عن السلام مع حب النساء", image: "https://i.ibb.co/wF2XdNqx/jiraiya.jpg", gender: "male" },
+            { name: "kakashi", displayName: "كاكاشي هاتاكي", anime: "naruto", traits: ["ذكي", "هادئ", "غامض"], similarity: "الذكاء الحاد مع حب الكتب المثيرة", image: "https://i.ibb.co/dJ7YJmJn/kakashi.jpg", gender: "male" },
+            { name: "tsunade", displayName: "تسونادي", anime: "naruto", traits: ["قوية", "حكيمة", "مقامرة"], similarity: "القوة الخارقة مع حب القمار والخوف من الدم", image: "https://i.ibb.co/998dGvtN/tsunade.jpg", gender: "female" },
+            { name: "ace", displayName: "بورتغاس دي إيس", anime: "One Piece", traits: ["فخور", "محبوب", "مضحٍ"], similarity: "حب العائلة مع كبرياء النار", image: "https://i.ibb.co/DDqc2yDv/ace.jpg", gender: "male" },
+            { name: "nami", displayName: "نامي", anime: "One Piece", traits: ["ذكية", "جشعة", "مخلصة"], similarity: "حب المال مع حماية أحلام الطاقم", image: "https://i.ibb.co/hRb23Z8d/nami.jpg", gender: "female" },
+            { name: "hancock", displayName: "بوا هانكوك", anime: "One Piece", traits: ["جميلة", "متعجرفة", "قوية"], similarity: "الجمال القاتل مع حب لوفي الوحيد", image: "https://i.ibb.co/LX2Bh0zb/hancock.jpg", gender: "female" },
+            { name: "robin", displayName: "نيكو روبين", anime: "One Piece", traits: ["هادئة", "ذكية", "غامضة"], similarity: "حب التاريخ مع الظلام السابق", image: "https://i.ibb.co/4R0P9N4G/robin.jpg", gender: "female" },
+            { name: "katakuri", displayName: "شارلوت كاتاكوري", anime: "One Piece", traits: ["محترم", "قوي", "فخور"], similarity: "القوة الخارقة مع حماية العائلة", image: "https://i.ibb.co/PZCNfqmV/katakuri.jpg", gender: "male" },
+            { name: "sanji", displayName: "سانجي", anime: "One Piece", traits: ["طاهٍ", "شهم", "حساس"], similarity: "حب النساء مع ركلات قوية", image: "https://i.ibb.co/21d0MJBr/sanji.jpg", gender: "male" },
+            { name: "law", displayName: "ترافلجار لاو", anime: "One Piece", traits: ["ذكي", "هادئ", "طموح"], similarity: "الذكاء الحاد مع كره الكاذبين", image: "https://i.ibb.co/pvKmnjcf/law.jpg", gender: "male" },
+            { name: "shanks", displayName: "شانكس", anime: "One Piece", traits: ["هادئ", "قوي", "محترم"], similarity: "القوة الخارقة مع حب الحرية", image: "https://i.ibb.co/SDGL6b4j/shanks.jpg", gender: "male" },
+            { name: "luffy", displayName: "مونكي دي لوفي", anime: "One Piece", traits: ["مغامر", "مصر", "طيب"], similarity: "حب الحرية مع حماية الأصدقاء", image: "https://i.ibb.co/KxmBsc89/luffy.jpg", gender: "male" },
+            { name: "zoro", displayName: "رورونوا زورو", anime: "One Piece", traits: ["قوي", "مخلص", "طموح"], similarity: "السعي لهدف الأقوى بلا خوف", image: "https://i.ibb.co/nsJQsYxM/zoro.jpg", gender: "male" }
+        ];
+
+        // ============================================
+        // الأسئلة الـ 15
+        // ============================================
+        const questions = [
+            {
+                text: "ما هو لون شعرك الحالي؟", options: [
+                    { text: "أسود داكن أو بني غامق جداً", points: { "هادئ": 1, "غامض": 1 } },
+                    { text: "بني فاتح، كستنائي، أو مصبوغ/ملون", points: { "اجتماعي": 1, "طبيعي": 1 } },
+                    { text: "أشقر، أحمر، أو مائل للأبيض/الرمادي", points: { "حر": 1, "جريء": 1 } },
+                    { text: "أسود نفاث وثائر (كثيف جداً وصعب التصفيف)", points: { "متمرد": 1, "قوي": 1 } }
+                ]
+            },
+            {
+                text: "كيف هي بنيتك الجسدية؟", options: [
+                    { text: "متوسط الطول وبنية عادية (متناسقة)", points: { "متوازن": 1 } },
+                    { text: "طويل القامة وبنية قوية أو عريضة", points: { "قوي": 2 } },
+                    { text: "نحيف أو رشيق (وزني خفيف وحركتي سريعة)", points: { "ذكي": 1, "سريع": 1 } },
+                    { text: "قصير القامة أو بنيتي صغيرة وتبدو أصغر من عمري", points: { "متواضع": 1, "عنيد": 1 } }
+                ]
+            },
+            {
+                text: "ما هي السمة الأبرز في ملامح وجهك أو عيونك؟", options: [
+                    { text: "عيوني حادة ونظراتي جادة أو تبدو غاضبة للبعض", points: { "حاد": 1, "جاد": 1 } },
+                    { text: "عيوني واسعة وملامحي هادئة وتبدو 'مسالمة'", points: { "طيب": 1, "هادئ": 1 } },
+                    { text: "ملامح وجهي بارزة ولدي علامة مميزة (شامة، جرح، أو نتوءات واضحة)", points: { "مميز": 1, "واثق": 1 } },
+                    { text: "ملامحي غامضة أو غير معبرة ونادراً ما تظهر مشاعري على وجهي", points: { "غامض": 2 } }
+                ]
+            },
+            {
+                text: "كيف هو ستايل لباسك اليومي المعتاد؟", options: [
+                    { text: "كاجوال ومريح جداً (قمصان واسعة، هوديز، ملابس رياضية)", points: { "حر": 1, "بسيط": 1 } },
+                    { text: "كلاسيكي، مرتب، أو رسمي (قمصان بأزرار، جاكيتات أنيقة، ملابس منظمة)", points: { "منظم": 1, "أنيق": 1 } },
+                    { text: "بسيط جداً ولا يهمني المظهر (أرتدي أول شيء أجده في الخزانة)", points: { "غير مكترث": 1 } },
+                    { text: "داكن أو غامق دائماً (أفضل الألوان السوداء والرمادية)", points: { "جاد": 1, "غامض": 1 } }
+                ]
+            },
+            {
+                text: "ما هو الانطباع الشكلي الأول الذي يأخذه عنك الناس بمجرد النظر إليك؟", options: [
+                    { text: "يظنونني شخصاً هادئاً، خجولاً، أو انطوائياً", points: { "انطوائي": 1 } },
+                    { text: "يظنونني شخصاً مغروراً، بارداً، أو يصعب التعامل معه", points: { "واثق": 1, "منعزل": 1 } },
+                    { text: "يظنونني شخصاً اجتماعياً، بشوشاً، ويسهل التحدث إليه", points: { "اجتماعي": 2 } },
+                    { text: "يظنونني شخصاً غامضاً أو أكبر/أصغر من عمري بكثير", points: { "غامض": 1 } }
+                ]
+            },
+            {
+                text: "كيف تتعامل مع الضغوطات والمشاكل الكبيرة في حياتك؟", options: [
+                    { text: "أتوتر بسرعة، وأنفجر غضباً أو أحزن بشكل ظاهر (مشاعري تسبقني)", points: { "عاطفي": 2 } },
+                    { text: "أكبت كل شيء بداخلي تماماً، وأتظاهر بالبرود الكامل أمام الناس", points: { "منضبط": 1, "بارد": 1 } },
+                    { text: "أتعامل بهدوء وصبر، وأحاول التكيف مع الأمر الواقع دون دراما", points: { "حكيم": 2 } },
+                    { text: "أهرب من المشكلة بالضحك، النوم، أو تشتيت نفسي بأي شيء آخر", points: { "مرن": 1 } }
+                ]
+            },
+            {
+                text: "ما هو دافعك الأكبر والأساسي في الحياة حالياً؟", options: [
+                    { text: "حماية عائلتي وأصدقائي المقربين ورؤيتهم بخير وسعادة", points: { "مخلص": 3 } },
+                    { text: "تحقيق طموحي الشخصي، النجاح، وإثبات نفسي للجميع وسحق الفشل", points: { "طموح": 3 } },
+                    { text: "البحث عن راحة البال، الحرية، والابتعاد عن المشاكل والصراعات", points: { "حر": 3 } },
+                    { text: "الفضول، استكشاف الحياة، وتجربة أشياء جديدة وممتعة", points: { "فضولي": 2 } }
+                ]
+            },
+            {
+                text: "كيف تصف علاقتك بالناس واجتماعياتك؟", options: [
+                    { text: "اجتماعي جداً، لدي أصدقاء كثيرون، وأحب التواجد في تجمعات", points: { "اجتماعي": 2 } },
+                    { text: "انطوائي (ذئب منفرد)، أفضل العزلة، ودائرتي تقتصر على شخص أو اثنين فقط", points: { "منعزل": 2 } },
+                    { text: "قائد بطبعي، الناس يميلون لاتباع رأيي والاعتماد علي في المجموعات", points: { "قائد": 2 } },
+                    { text: "مستمع وصديق وفي في الخلفية، أفضل الدعم دون أن أكون تحت الأضواء", points: { "وفي": 2 } }
+                ]
+            },
+            {
+                text: "ما هي نقطة ضعفك النفسية التي تعاني منها؟", options: [
+                    { text: "التسرع والاندفاع التام وقول أشياء أندم عليها لاحقاً", points: { "مندفع": 2 } },
+                    { text: "التفكير الزائد (Overthinking) والشك في نوايا من حولي", points: { "محلل": 1, "قلق": 1 } },
+                    { text: "الكسل الشديد وتأجيل المهام حتى اللحظة الأخيرة", points: { "كسول": 2 } },
+                    { text: "العناد الأعمى، أجد صعوبة بالغة في الاعتراف بأنني مخطئ", points: { "عنيد": 2 } }
+                ]
+            },
+            {
+                text: "كيف تتصرف عندما يخطئ شخص ما في حقك أو يغدر بك؟", options: [
+                    { text: "لا أسامح أبداً، وأنتظر الفرصة المناسبة لأرد له الصاع صاعين (الانتقام)", points: { "منتقم": 2 } },
+                    { text: "أقطع علاقتي به فوراً وكأنه لم يكن موجوداً في حياتي (تجاهل تام)", points: { "حاد": 1, "واثق": 1 } },
+                    { text: "أغضب وأواجهه بعنف في نفس اللحظة، لكنني قد أهدأ وأسامح بعد فترة", points: { "عاطفي": 1, "متسامح": 1 } },
+                    { text: "أحاول فهم عذره وأسامحه بسهولة لأنني لا أحب حمل الأحقاد", points: { "طيب": 2 } }
+                ]
+            },
+            {
+                text: "عندما تقع في مشكلة مفاجئة وصعبة، كيف يتصرف عقلك؟", options: [
+                    { text: "أعتمد على حدسي وغريزتي الفورية وآخذ قراراً سريعاً بدون تخطيط", points: { "حدسي": 2 } },
+                    { text: "يتوقف عقلي للحظات، ثم أبدأ بتحليل المشكلة بهدوء لأجد ثغرة أو حلاً منطقياً", points: { "محلل": 2 } },
+                    { text: "أستشير من هم أعلم مني أو أصدقائي ولا أحب اتخاذ القرار بمفردي", points: { "اجتماعي": 1 } },
+                    { text: "أصاب بالبلوك العقلي (الجمود) وأحتاج لوقت طويل بمفردي لأستوعب ما حدث", points: { "متردد": 1 } }
+                ]
+            },
+            {
+                text: "ما هو نوع الذكاء الذي تشعر أنك تتميز به في حياتك اليومية؟", options: [
+                    { text: "ذكاء تحليلي ومنطقي (بارع في التخطيط، حل الألغاز، وفهم الأمور المعقدة)", points: { "ذكي": 2 } },
+                    { text: "سرعة بديهة وارتجال (أجد مخرجاً وكلاماً ذكياً في أي موقف محرج فوراً)", points: { "ذكي": 1, "اجتماعي": 1 } },
+                    { text: "ذكاء عاطفي واجتماعي (أفهم مشاعر الناس ونواياهم بسرعة بمجرد النظر إليهم)", points: { "متعاطف": 2 } },
+                    { text: "ذكاء عملي وغريزي (أتعلم باللمس والممارسة وأشعر بالخطر قبل حدوثه)", points: { "غريزي": 2 } }
+                ]
+            },
+            {
+                text: "كيف تنظر للقوانين والقواعد والتقاليد من حولك؟", options: [
+                    { text: "ألتزم بها تماماً وأحترم النظام لأن الفوضى تدمر كل شيء", points: { "منضبط": 2 } },
+                    { text: "أتبع قناعاتي الخاصة فقط، وإذا كانت القوانين غبية أو تقيد حريتي أضرب بها عرض الحائط", points: { "متمرد": 2 } },
+                    { text: "أسايرها علناً خوفاً من المشاكل، لكنني أتحايل عليها في الخفاء لمصلحتي", points: { "مراوغ": 1 } },
+                    { text: "أسعى دائماً لتغييرها وتطويرها لأنها قديمة ولا تناسب الواقع الحالي", points: { "ثوري": 2 } }
+                ]
+            },
+            {
+                text: "إذا واجهت موضوعاً غامضاً أو سراً لا تعرفه، كيف يعمل عقلك؟", options: [
+                    { text: "يصيبني فضول قاتل، ولا أرتاح حتى أبحث وأعرف الحقيقة كاملة", points: { "فضولي": 2 } },
+                    { text: "أربط الخيوط وأحلل التفاصيل ببطء حتى تتضح الصورة أمامي تلقائياً", points: { "محلل": 2 } },
+                    { text: "لا يهمني الأمر إطلاقاً، ولا أتدخل فيما لا يعنيني", points: { "غير مكترث": 1 } },
+                    { text: "أسأل الشخص مباشرة دون لف أو دوران لأقطع الشك باليقين", points: { "جريء": 1 } }
+                ]
+            },
+            {
+                text: "ما هي الفلسفة العقلية التي تطبقها في إدارة حياتك؟", options: [
+                    { text: "'الغاية تبرر الوسيلة' (المهم هو النتيجة والوصول للهدف مهما كانت التضحيات)", points: { "طموح": 2, "قاسٍ": 1 } },
+                    { text: "'عش يومك بحرية وبساطة' (الحياة قصيرة ولا داعي لتعقيد الأمور بالتفكير الزائد)", points: { "حر": 3 } },
+                    { text: "'احترام الذات والقوة هما كل شيء' (في هذا العالم، الضعيف لا مكان له)", points: { "قوي": 2, "فخور": 1 } },
+                    { text: "'العقل والهدوء هما السلاح الأقوى' (من يفقد أعصابه وتركيزه يخسر دائماً)", points: { "حكيم": 2, "منضبط": 1 } }
+                ]
+            }
+        ];
+
+        // ============================================
+        // منطق الاختبار مع الميزات الجديدة
+        // ============================================
+        let userGender = null;
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let userScores = {};
+
+        // دوال مساعدة
+        function getAnimeName(animeCode) {
+            const animeNames = {
+                "attack": "هجوم العمالقة",
+                "black": "بلاك كلوفر",
+                "jujutsu": "جوجوتسو كايسن",
+                "dragon": "دراغون بول",
+                "death": "ديث نوت",
+                "Demon": "قاتل الشياطين",
+                "naruto": "ناروتو",
+                "One Piece": "ون بيس"
+            };
+            return animeNames[animeCode] || animeCode;
+        }
+
+        function getCurrentPageUrl() {
+            return window.location.href;
+        }
+
+        // دوال المشاركة
+        function shareOnFacebook(characterName) {
+            const url = getCurrentPageUrl();
+            const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function shareOnTwitter(characterName) {
+            const url = getCurrentPageUrl();
+            const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnWhatsapp(characterName) {
+            const url = getCurrentPageUrl();
+            const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن: ${url}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function copyLink() {
+            const url = getCurrentPageUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✅ تم نسخ رابط الاختبار! يمكنك مشاركته الآن.');
+            }).catch(() => {
+                alert('❌ فشل النسخ، يمكنك نسخ الرابط يدويًا.');
+            });
+        }
+
+        function updateProgress() {
+            const fill = document.querySelector('.progress-fill');
+            const text = document.querySelector('.progress-text');
+            if (fill && text) {
+                const percent = ((currentQuestion) / questions.length) * 100;
+                fill.style.width = `${percent}%`;
+                text.innerText = `السؤال ${currentQuestion} من ${questions.length}`;
+            }
+        }
+
+        function selectOptionAndNext(optionIndex) {
+            // تسجيل الإجابة
+            userAnswers[currentQuestion] = optionIndex;
+
+            // تسجيل النقاط
+            const q = questions[currentQuestion];
+            const points = q.options[optionIndex].points;
+            for (const [trait, value] of Object.entries(points)) {
+                userScores[trait] = (userScores[trait] || 0) + value;
+            }
+
+            // الانتقال للسؤال التالي
+            currentQuestion++;
+
+            if (currentQuestion >= questions.length) {
+                calculateResult();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function renderStart() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+        <div class="start-screen">
+          <h1><i class="fas fa-mask"></i> اختبار شخصية الأنمي <i class="fas fa-dragon"></i></h1>
+          <div class="subtitle">اكتشف أي شخصية أنمي تشبهك!</div>
+          <h2 style="text-align:center;">اختر جنسك:</h2>
+          <div class="gender-buttons">
+            <button class="btn gender-btn" onclick="selectGender('male')"><i class="fas fa-mars"></i> ذكر</button>
+            <button class="btn gender-btn" onclick="selectGender('female')"><i class="fas fa-venus"></i> أنثى</button>
+          </div>
+          <footer>سيتم عرض شخصية أنمي تناسب جنسك بناءً على إجاباتك</footer>
+        </div>
+      `;
+        }
+
+        function selectGender(gender) {
+            userGender = gender;
+            userAnswers = [];
+            currentQuestion = 0;
+            userScores = {};
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            if (currentQuestion >= questions.length) {
+                calculateResult();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            let optionsHtml = '';
+            q.options.forEach((opt, idx) => {
+                optionsHtml += `
+          <div class="option" onclick="selectOptionAndNext(${idx})">
+            <div class="option-icon"><i class="fas fa-${idx === 0 ? 'circle' : (idx === 1 ? 'dot-circle' : (idx === 2 ? 'circle-notch' : 'check-circle'))}"></i></div>
+            <div class="option-text">${opt.text}</div>
+          </div>
+        `;
+            });
+
+            const app = document.getElementById('app');
+            app.innerHTML = `
+        <div class="quiz-screen">
+          <div class="progress-container">
+            <div class="progress-bar"><div class="progress-fill" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
+            <div class="progress-text">السؤال ${currentQuestion + 1} من ${questions.length}</div>
+          </div>
+          <div class="question-text">
+            <i class="fas fa-question-circle"></i> ${q.text}
+          </div>
+          <div class="options">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+        }
+
+        function calculateResult() {
+            let filteredChars = characters.filter(c => c.gender === userGender);
+            if (filteredChars.length === 0) filteredChars = characters;
+
+            let bestChar = null;
+            let bestScore = -1;
+
+            for (const char of filteredChars) {
+                let score = 0;
+                for (const trait of char.traits) {
+                    for (const [userTrait, userValue] of Object.entries(userScores)) {
+                        if (trait.includes(userTrait) || userTrait.includes(trait) ||
+                            trait.toLowerCase() === userTrait.toLowerCase() ||
+                            (trait === "قوي" && userTrait === "قوية") ||
+                            (trait === "قوية" && userTrait === "قوي")) {
+                            score += userValue * 2;
+                        }
+                    }
+                }
+                for (const [trait, value] of Object.entries(userScores)) {
+                    if (char.traits.some(t => t.includes(trait) || trait.includes(t))) {
+                        score += value;
+                    }
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestChar = char;
+                }
+            }
+
+            if (!bestChar) bestChar = filteredChars[0];
+            renderResult(bestChar);
+        }
+
+        function renderResult(character) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+        <div class="result-screen">
+          <div class="result-card">
+            <h1><i class="fas fa-trophy"></i> نتيجتك <i class="fas fa-star"></i></h1>
+            <img src="${character.image}" alt="${character.displayName}" onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+            <div class="result-name">${character.displayName}</div>
+            <div class="result-anime"><i class="fas fa-film"></i> ${getAnimeName(character.anime)}</div>
+            <div class="result-similarity">
+              <i class="fas fa-hand-peace"></i> <strong>وجه التشابه:</strong><br>
+              ${character.similarity}
+            </div>
+
+            <div class="share-buttons">
+              <div class="share-btn facebook" onclick="shareOnFacebook('${character.displayName}')"><i class="fab fa-facebook-f"></i> فيسبوك</div>
+              <div class="share-btn twitter" onclick="shareOnTwitter('${character.displayName}')"><i class="fab fa-twitter"></i> تويتر</div>
+              <div class="share-btn whatsapp" onclick="shareOnWhatsapp('${character.displayName}')"><i class="fab fa-whatsapp"></i> واتساب</div>
+              <div class="share-btn copy-link" onclick="copyLink()"><i class="fas fa-link"></i> نسخ الرابط</div>
+            </div>
+
+            <button class="btn restart-btn" onclick="restartQuiz()"><i class="fas fa-redo-alt"></i> ابدأ من جديد</button>
+          </div>
+          <footer>جميع الصور والحقوق مملوكة لأصحابها، تستخدم لأغراض توضيحية فقط</footer>
+        </div>
+      `;
+        }
+
+        function restartQuiz() {
+            userGender = null;
+            currentQuestion = 0;
+            userAnswers = [];
+            userScores = {};
+            renderStart();
+        }
+
+        // بدء التشغيل
+        renderStart();
+    </script>
+</body>
+</html>

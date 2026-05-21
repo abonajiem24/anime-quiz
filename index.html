@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار شخصية الأنمي - اكتشف من يشبهك!</title>
+
+    <!-- أوسمة مشاركة مواقع التواصل الاجتماعي (Facebook Open Graph) -->
+    <meta property="og:title" content="اختبار شخصية الأنمي - اكتشف من يشبهك!" />
+    <meta property="og:description" content="أجب على 15 سؤالاً واكتشف أي شخصية أنمي تشبهك من بين 80 شخصية!" />
+    <meta property="og:image" content="https://i.ibb.co/6JcyjvSc/eren.jpg" />
+    <meta property="og:url" content="https://tsali2.blogspot.com/p/margin-0-padding-0-box-sizing-border.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <!-- خطوط Google -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome للأيقونات -->
@@ -352,6 +361,12 @@
 
     <script>
         // ============================================
+        // إعدادات مهمة - رابط مدونتك الذي تريد المشاركة إليه
+        // ============================================
+        const MY_BLOG_URL = "https://tsali2.blogspot.com/p/margin-0-padding-0-box-sizing-border.html";
+        const SHARE_IMAGE_URL = "https://i.ibb.co/6JcyjvSc/eren.jpg";
+
+        // ============================================
         // البيانات: جميع الشخصيات (من ملف Excel الخاص بك)
         // ============================================
         const characters = [
@@ -564,7 +579,7 @@
         ];
 
         // ============================================
-        // منطق الاختبار مع الميزات الجديدة
+        // منطق الاختبار (دوال المعدلة للمشاركة)
         // ============================================
         let userGender = null;
         let currentQuestion = 0;
@@ -586,31 +601,29 @@
             return animeNames[animeCode] || animeCode;
         }
 
-        function getCurrentPageUrl() {
-            return window.location.href;
-        }
-
-        // دوال المشاركة
+        // ============================================
+        // دوال المشاركة المعدلة - ترسل رابط مدونتك
+        // ============================================
         function shareOnFacebook(characterName) {
-            const url = getCurrentPageUrl();
+            const url = MY_BLOG_URL;
             const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank');
         }
 
         function shareOnTwitter(characterName) {
-            const url = getCurrentPageUrl();
+            const url = MY_BLOG_URL;
             const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
         }
 
         function shareOnWhatsapp(characterName) {
-            const url = getCurrentPageUrl();
+            const url = MY_BLOG_URL;
             const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن: ${url}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function copyLink() {
-            const url = getCurrentPageUrl();
+            const url = MY_BLOG_URL;
             navigator.clipboard.writeText(url).then(() => {
                 alert('✅ تم نسخ رابط الاختبار! يمكنك مشاركته الآن.');
             }).catch(() => {
@@ -629,17 +642,14 @@
         }
 
         function selectOptionAndNext(optionIndex) {
-            // تسجيل الإجابة
             userAnswers[currentQuestion] = optionIndex;
 
-            // تسجيل النقاط
             const q = questions[currentQuestion];
             const points = q.options[optionIndex].points;
             for (const [trait, value] of Object.entries(points)) {
                 userScores[trait] = (userScores[trait] || 0) + value;
             }
 
-            // الانتقال للسؤال التالي
             currentQuestion++;
 
             if (currentQuestion >= questions.length) {
@@ -652,17 +662,17 @@
         function renderStart() {
             const app = document.getElementById('app');
             app.innerHTML = `
-        <div class="start-screen">
-          <h1><i class="fas fa-mask"></i> اختبار شخصية الأنمي <i class="fas fa-dragon"></i></h1>
-          <div class="subtitle">اكتشف أي شخصية أنمي تشبهك!</div>
-          <h2 style="text-align:center;">اختر جنسك:</h2>
-          <div class="gender-buttons">
-            <button class="btn gender-btn" onclick="selectGender('male')"><i class="fas fa-mars"></i> ذكر</button>
-            <button class="btn gender-btn" onclick="selectGender('female')"><i class="fas fa-venus"></i> أنثى</button>
-          </div>
-          <footer>سيتم عرض شخصية أنمي تناسب جنسك بناءً على إجاباتك</footer>
-        </div>
-      `;
+            <div class="start-screen">
+              <h1><i class="fas fa-mask"></i> اختبار شخصية الأنمي <i class="fas fa-dragon"></i></h1>
+              <div class="subtitle">اكتشف أي شخصية أنمي تشبهك!</div>
+              <h2 style="text-align:center;">اختر جنسك:</h2>
+              <div class="gender-buttons">
+                <button class="btn gender-btn" onclick="selectGender('male')"><i class="fas fa-mars"></i> ذكر</button>
+                <button class="btn gender-btn" onclick="selectGender('female')"><i class="fas fa-venus"></i> أنثى</button>
+              </div>
+              <footer>سيتم عرض شخصية أنمي تناسب جنسك بناءً على إجاباتك</footer>
+            </div>
+          `;
         }
 
         function selectGender(gender) {
@@ -683,28 +693,28 @@
             let optionsHtml = '';
             q.options.forEach((opt, idx) => {
                 optionsHtml += `
-          <div class="option" onclick="selectOptionAndNext(${idx})">
-            <div class="option-icon"><i class="fas fa-${idx === 0 ? 'circle' : (idx === 1 ? 'dot-circle' : (idx === 2 ? 'circle-notch' : 'check-circle'))}"></i></div>
-            <div class="option-text">${opt.text}</div>
-          </div>
-        `;
+              <div class="option" onclick="selectOptionAndNext(${idx})">
+                <div class="option-icon"><i class="fas fa-${idx === 0 ? 'circle' : (idx === 1 ? 'dot-circle' : (idx === 2 ? 'circle-notch' : 'check-circle'))}"></i></div>
+                <div class="option-text">${opt.text}</div>
+              </div>
+            `;
             });
 
             const app = document.getElementById('app');
             app.innerHTML = `
-        <div class="quiz-screen">
-          <div class="progress-container">
-            <div class="progress-bar"><div class="progress-fill" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
-            <div class="progress-text">السؤال ${currentQuestion + 1} من ${questions.length}</div>
-          </div>
-          <div class="question-text">
-            <i class="fas fa-question-circle"></i> ${q.text}
-          </div>
-          <div class="options">
-            ${optionsHtml}
-          </div>
-        </div>
-      `;
+            <div class="quiz-screen">
+              <div class="progress-container">
+                <div class="progress-bar"><div class="progress-fill" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
+                <div class="progress-text">السؤال ${currentQuestion + 1} من ${questions.length}</div>
+              </div>
+              <div class="question-text">
+                <i class="fas fa-question-circle"></i> ${q.text}
+              </div>
+              <div class="options">
+                ${optionsHtml}
+              </div>
+            </div>
+          `;
         }
 
         function calculateResult() {
@@ -744,29 +754,29 @@
         function renderResult(character) {
             const app = document.getElementById('app');
             app.innerHTML = `
-        <div class="result-screen">
-          <div class="result-card">
-            <h1><i class="fas fa-trophy"></i> نتيجتك <i class="fas fa-star"></i></h1>
-            <img src="${character.image}" alt="${character.displayName}" onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
-            <div class="result-name">${character.displayName}</div>
-            <div class="result-anime"><i class="fas fa-film"></i> ${getAnimeName(character.anime)}</div>
-            <div class="result-similarity">
-              <i class="fas fa-hand-peace"></i> <strong>وجه التشابه:</strong><br>
-              ${character.similarity}
-            </div>
+            <div class="result-screen">
+              <div class="result-card">
+                <h1><i class="fas fa-trophy"></i> نتيجتك <i class="fas fa-star"></i></h1>
+                <img src="${character.image}" alt="${character.displayName}" onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+                <div class="result-name">${character.displayName}</div>
+                <div class="result-anime"><i class="fas fa-film"></i> ${getAnimeName(character.anime)}</div>
+                <div class="result-similarity">
+                  <i class="fas fa-hand-peace"></i> <strong>وجه التشابه:</strong><br>
+                  ${character.similarity}
+                </div>
 
-            <div class="share-buttons">
-              <div class="share-btn facebook" onclick="shareOnFacebook('${character.displayName}')"><i class="fab fa-facebook-f"></i> فيسبوك</div>
-              <div class="share-btn twitter" onclick="shareOnTwitter('${character.displayName}')"><i class="fab fa-twitter"></i> تويتر</div>
-              <div class="share-btn whatsapp" onclick="shareOnWhatsapp('${character.displayName}')"><i class="fab fa-whatsapp"></i> واتساب</div>
-              <div class="share-btn copy-link" onclick="copyLink()"><i class="fas fa-link"></i> نسخ الرابط</div>
-            </div>
+                <div class="share-buttons">
+                  <div class="share-btn facebook" onclick="shareOnFacebook('${character.displayName}')"><i class="fab fa-facebook-f"></i> فيسبوك</div>
+                  <div class="share-btn twitter" onclick="shareOnTwitter('${character.displayName}')"><i class="fab fa-twitter"></i> تويتر</div>
+                  <div class="share-btn whatsapp" onclick="shareOnWhatsapp('${character.displayName}')"><i class="fab fa-whatsapp"></i> واتساب</div>
+                  <div class="share-btn copy-link" onclick="copyLink()"><i class="fas fa-link"></i> نسخ الرابط</div>
+                </div>
 
-            <button class="btn restart-btn" onclick="restartQuiz()"><i class="fas fa-redo-alt"></i> ابدأ من جديد</button>
-          </div>
-          <footer>جميع الصور والحقوق مملوكة لأصحابها، تستخدم لأغراض توضيحية فقط</footer>
-        </div>
-      `;
+                <button class="btn restart-btn" onclick="restartQuiz()"><i class="fas fa-redo-alt"></i> ابدأ من جديد</button>
+              </div>
+              <footer>جميع الصور والحقوق مملوكة لأصحابها، تستخدم لأغراض توضيحية فقط</footer>
+            </div>
+          `;
         }
 
         function restartQuiz() {

@@ -1,22 +1,23 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>اختبار شخصية الأنمي - اكتشف من يشبهك!</title>
-
-    <!-- أوسمة مشاركة مواقع التواصل الاجتماعي (Facebook Open Graph) -->
+    
+    <!-- أوسمة مشاركة مواقع التواصل الاجتماعي -->
     <meta property="og:title" content="اختبار شخصية الأنمي - اكتشف من يشبهك!" />
     <meta property="og:description" content="أجب على 15 سؤالاً واكتشف أي شخصية أنمي تشبهك من بين 80 شخصية!" />
     <meta property="og:image" content="https://i.ibb.co/6JcyjvSc/eren.jpg" />
-    <meta property="og:url" content="https://tsali2.blogspot.com/p/margin-0-padding-0-box-sizing-border.html" />
+    <meta property="og:url" content="https://tsali2.blogspot.com/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-
+    
     <!-- خطوط Google -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome للأيقونات -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -33,19 +34,18 @@
             position: relative;
         }
 
-            /* طبقة شفافة فوق الخلفية */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: url('https://www.transparenttextures.com/patterns/anime-pattern.png') repeat;
-                opacity: 0.05;
-                pointer-events: none;
-                z-index: 0;
-            }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/anime-pattern.png') repeat;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+        }
 
         .container {
             max-width: 800px;
@@ -54,13 +54,11 @@
             z-index: 1;
         }
 
-        /* أنيميشن للظهور */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -86,9 +84,9 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-            h1 i {
-                margin: 0 10px;
-            }
+        h1 i {
+            margin: 0 10px;
+        }
 
         .subtitle {
             text-align: center;
@@ -131,17 +129,11 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-            .option:hover {
-                background: rgba(255,255,255,0.25);
-                transform: translateX(8px);
-                border-color: rgba(255,255,255,0.5);
-            }
-
-            .option.selected {
-                background: rgba(255,107,107,0.5);
-                border-color: #ff6b6b;
-                box-shadow: 0 0 15px rgba(255,107,107,0.3);
-            }
+        .option:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateX(8px);
+            border-color: rgba(255,255,255,0.5);
+        }
 
         .option-text {
             flex: 1;
@@ -153,7 +145,6 @@
             font-size: 20px;
         }
 
-        /* شريط التقدم */
         .progress-container {
             margin-bottom: 25px;
         }
@@ -181,7 +172,6 @@
             color: rgba(255,255,255,0.8);
         }
 
-        /* أزرار */
         .btn {
             background: linear-gradient(135deg, #ff6b6b, #ff4757);
             color: white;
@@ -196,10 +186,10 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-            .btn:hover {
-                transform: scale(1.05);
-                box-shadow: 0 5px 20px rgba(255,107,107,0.4);
-            }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+        }
 
         .gender-buttons {
             display: flex;
@@ -215,27 +205,26 @@
             backdrop-filter: blur(5px);
         }
 
-            .gender-btn:hover {
-                background: #ff6b6b;
-            }
+        .gender-btn:hover {
+            background: #ff6b6b;
+        }
 
-        /* بطاقة النتيجة */
         .result-card {
             text-align: center;
         }
 
-            .result-card img {
-                max-width: 220px;
-                border-radius: 50%;
-                margin: 20px 0;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                border: 4px solid rgba(255,255,255,0.5);
-                transition: transform 0.3s;
-            }
+        .result-card img {
+            max-width: 220px;
+            border-radius: 50%;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid rgba(255,255,255,0.5);
+            transition: transform 0.3s;
+        }
 
-                .result-card img:hover {
-                    transform: scale(1.02);
-                }
+        .result-card img:hover {
+            transform: scale(1.02);
+        }
 
         .result-name {
             font-size: 32px;
@@ -258,17 +247,16 @@
             font-size: 18px;
         }
 
-        /* أزرار المشاركة */
         .share-buttons {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             margin: 20px 0;
             flex-wrap: wrap;
         }
 
         .share-btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 40px;
             font-size: 14px;
             display: inline-flex;
@@ -276,31 +264,23 @@
             gap: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            color: white;
+            border: none;
         }
 
-            .share-btn i {
-                font-size: 16px;
-            }
-
-            .share-btn:hover {
-                transform: translateY(-3px);
-            }
-
-        .facebook {
-            background: #1877f2;
+        .share-btn i {
+            font-size: 16px;
         }
 
-        .twitter {
-            background: #1da1f2;
+        .share-btn:hover {
+            transform: translateY(-3px);
         }
 
-        .whatsapp {
-            background: #25d366;
-        }
-
-        .copy-link {
-            background: #6c5ce7;
-        }
+        .facebook { background: #1877f2; }
+        .twitter { background: #1da1f2; }
+        .whatsapp { background: #25d366; }
+        .instagram { background: linear-gradient(45deg, #f09433, #d62976, #962fbf); }
+        .copy-link { background: #6c5ce7; }
 
         .restart-btn {
             background: linear-gradient(135deg, #4ecdc4, #44bdaf);
@@ -314,44 +294,25 @@
             color: rgba(255,255,255,0.6);
         }
 
-        /* تأثير اهتزاز للتنبيه */
-        @keyframes shake {
-            0%,100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-5px);
-            }
-
-            75% {
-                transform: translateX(5px);
-            }
-        }
-
-        .shake {
-            animation: shake 0.3s ease;
-        }
-
         @media (max-width: 600px) {
             .container {
                 padding: 0 10px;
             }
-
             .start-screen, .quiz-screen, .result-screen {
                 padding: 20px;
             }
-
             .question-text {
                 font-size: 18px;
             }
-
             .option-text {
                 font-size: 14px;
             }
-
             .result-name {
                 font-size: 24px;
+            }
+            .share-btn {
+                padding: 8px 12px;
+                font-size: 12px;
             }
         }
     </style>
@@ -361,13 +322,13 @@
 
     <script>
         // ============================================
-        // إعدادات مهمة - رابط مدونتك الذي تريد المشاركة إليه
+        // إعدادات مهمة - رابط مدونتك
         // ============================================
-        const MY_BLOG_URL = "https://tsali2.blogspot.com/2026/05/blog-post.html";
-        const SHARE_IMAGE_URL = "https://i.ibb.co/tpf7fBPh/back.jpg";
+        const MY_BLOG_URL = "https://tsali2.blogspot.com/";
+        const SHARE_IMAGE_URL = "https://i.ibb.co/6JcyjvSc/eren.jpg";
 
         // ============================================
-        // البيانات: جميع الشخصيات (من ملف Excel الخاص بك)
+        // جميع الشخصيات
         // ============================================
         const characters = [
             { name: "eren", displayName: "إيرين ييغر", anime: "attack", traits: ["حرية", "إنتقام", "عمالقة"], similarity: "السعي للحرية مهما كان الثمن", image: "https://i.ibb.co/6JcyjvSc/eren.jpg", gender: "male" },
@@ -456,137 +417,106 @@
         // الأسئلة الـ 15
         // ============================================
         const questions = [
-            {
-                text: "ما هو لون شعرك الحالي؟", options: [
-                    { text: "أسود داكن أو بني غامق جداً", points: { "هادئ": 1, "غامض": 1 } },
-                    { text: "بني فاتح، كستنائي، أو مصبوغ/ملون", points: { "اجتماعي": 1, "طبيعي": 1 } },
-                    { text: "أشقر، أحمر، أو مائل للأبيض/الرمادي", points: { "حر": 1, "جريء": 1 } },
-                    { text: "أسود نفاث وثائر (كثيف جداً وصعب التصفيف)", points: { "متمرد": 1, "قوي": 1 } }
-                ]
-            },
-            {
-                text: "كيف هي بنيتك الجسدية؟", options: [
-                    { text: "متوسط الطول وبنية عادية (متناسقة)", points: { "متوازن": 1 } },
-                    { text: "طويل القامة وبنية قوية أو عريضة", points: { "قوي": 2 } },
-                    { text: "نحيف أو رشيق (وزني خفيف وحركتي سريعة)", points: { "ذكي": 1, "سريع": 1 } },
-                    { text: "قصير القامة أو بنيتي صغيرة وتبدو أصغر من عمري", points: { "متواضع": 1, "عنيد": 1 } }
-                ]
-            },
-            {
-                text: "ما هي السمة الأبرز في ملامح وجهك أو عيونك؟", options: [
-                    { text: "عيوني حادة ونظراتي جادة أو تبدو غاضبة للبعض", points: { "حاد": 1, "جاد": 1 } },
-                    { text: "عيوني واسعة وملامحي هادئة وتبدو 'مسالمة'", points: { "طيب": 1, "هادئ": 1 } },
-                    { text: "ملامح وجهي بارزة ولدي علامة مميزة (شامة، جرح، أو نتوءات واضحة)", points: { "مميز": 1, "واثق": 1 } },
-                    { text: "ملامحي غامضة أو غير معبرة ونادراً ما تظهر مشاعري على وجهي", points: { "غامض": 2 } }
-                ]
-            },
-            {
-                text: "كيف هو ستايل لباسك اليومي المعتاد؟", options: [
-                    { text: "كاجوال ومريح جداً (قمصان واسعة، هوديز، ملابس رياضية)", points: { "حر": 1, "بسيط": 1 } },
-                    { text: "كلاسيكي، مرتب، أو رسمي (قمصان بأزرار، جاكيتات أنيقة، ملابس منظمة)", points: { "منظم": 1, "أنيق": 1 } },
-                    { text: "بسيط جداً ولا يهمني المظهر (أرتدي أول شيء أجده في الخزانة)", points: { "غير مكترث": 1 } },
-                    { text: "داكن أو غامق دائماً (أفضل الألوان السوداء والرمادية)", points: { "جاد": 1, "غامض": 1 } }
-                ]
-            },
-            {
-                text: "ما هو الانطباع الشكلي الأول الذي يأخذه عنك الناس بمجرد النظر إليك؟", options: [
-                    { text: "يظنونني شخصاً هادئاً، خجولاً، أو انطوائياً", points: { "انطوائي": 1 } },
-                    { text: "يظنونني شخصاً مغروراً، بارداً، أو يصعب التعامل معه", points: { "واثق": 1, "منعزل": 1 } },
-                    { text: "يظنونني شخصاً اجتماعياً، بشوشاً، ويسهل التحدث إليه", points: { "اجتماعي": 2 } },
-                    { text: "يظنونني شخصاً غامضاً أو أكبر/أصغر من عمري بكثير", points: { "غامض": 1 } }
-                ]
-            },
-            {
-                text: "كيف تتعامل مع الضغوطات والمشاكل الكبيرة في حياتك؟", options: [
-                    { text: "أتوتر بسرعة، وأنفجر غضباً أو أحزن بشكل ظاهر (مشاعري تسبقني)", points: { "عاطفي": 2 } },
-                    { text: "أكبت كل شيء بداخلي تماماً، وأتظاهر بالبرود الكامل أمام الناس", points: { "منضبط": 1, "بارد": 1 } },
-                    { text: "أتعامل بهدوء وصبر، وأحاول التكيف مع الأمر الواقع دون دراما", points: { "حكيم": 2 } },
-                    { text: "أهرب من المشكلة بالضحك، النوم، أو تشتيت نفسي بأي شيء آخر", points: { "مرن": 1 } }
-                ]
-            },
-            {
-                text: "ما هو دافعك الأكبر والأساسي في الحياة حالياً؟", options: [
-                    { text: "حماية عائلتي وأصدقائي المقربين ورؤيتهم بخير وسعادة", points: { "مخلص": 3 } },
-                    { text: "تحقيق طموحي الشخصي، النجاح، وإثبات نفسي للجميع وسحق الفشل", points: { "طموح": 3 } },
-                    { text: "البحث عن راحة البال، الحرية، والابتعاد عن المشاكل والصراعات", points: { "حر": 3 } },
-                    { text: "الفضول، استكشاف الحياة، وتجربة أشياء جديدة وممتعة", points: { "فضولي": 2 } }
-                ]
-            },
-            {
-                text: "كيف تصف علاقتك بالناس واجتماعياتك؟", options: [
-                    { text: "اجتماعي جداً، لدي أصدقاء كثيرون، وأحب التواجد في تجمعات", points: { "اجتماعي": 2 } },
-                    { text: "انطوائي (ذئب منفرد)، أفضل العزلة، ودائرتي تقتصر على شخص أو اثنين فقط", points: { "منعزل": 2 } },
-                    { text: "قائد بطبعي، الناس يميلون لاتباع رأيي والاعتماد علي في المجموعات", points: { "قائد": 2 } },
-                    { text: "مستمع وصديق وفي في الخلفية، أفضل الدعم دون أن أكون تحت الأضواء", points: { "وفي": 2 } }
-                ]
-            },
-            {
-                text: "ما هي نقطة ضعفك النفسية التي تعاني منها؟", options: [
-                    { text: "التسرع والاندفاع التام وقول أشياء أندم عليها لاحقاً", points: { "مندفع": 2 } },
-                    { text: "التفكير الزائد (Overthinking) والشك في نوايا من حولي", points: { "محلل": 1, "قلق": 1 } },
-                    { text: "الكسل الشديد وتأجيل المهام حتى اللحظة الأخيرة", points: { "كسول": 2 } },
-                    { text: "العناد الأعمى، أجد صعوبة بالغة في الاعتراف بأنني مخطئ", points: { "عنيد": 2 } }
-                ]
-            },
-            {
-                text: "كيف تتصرف عندما يخطئ شخص ما في حقك أو يغدر بك؟", options: [
-                    { text: "لا أسامح أبداً، وأنتظر الفرصة المناسبة لأرد له الصاع صاعين (الانتقام)", points: { "منتقم": 2 } },
-                    { text: "أقطع علاقتي به فوراً وكأنه لم يكن موجوداً في حياتي (تجاهل تام)", points: { "حاد": 1, "واثق": 1 } },
-                    { text: "أغضب وأواجهه بعنف في نفس اللحظة، لكنني قد أهدأ وأسامح بعد فترة", points: { "عاطفي": 1, "متسامح": 1 } },
-                    { text: "أحاول فهم عذره وأسامحه بسهولة لأنني لا أحب حمل الأحقاد", points: { "طيب": 2 } }
-                ]
-            },
-            {
-                text: "عندما تقع في مشكلة مفاجئة وصعبة، كيف يتصرف عقلك؟", options: [
-                    { text: "أعتمد على حدسي وغريزتي الفورية وآخذ قراراً سريعاً بدون تخطيط", points: { "حدسي": 2 } },
-                    { text: "يتوقف عقلي للحظات، ثم أبدأ بتحليل المشكلة بهدوء لأجد ثغرة أو حلاً منطقياً", points: { "محلل": 2 } },
-                    { text: "أستشير من هم أعلم مني أو أصدقائي ولا أحب اتخاذ القرار بمفردي", points: { "اجتماعي": 1 } },
-                    { text: "أصاب بالبلوك العقلي (الجمود) وأحتاج لوقت طويل بمفردي لأستوعب ما حدث", points: { "متردد": 1 } }
-                ]
-            },
-            {
-                text: "ما هو نوع الذكاء الذي تشعر أنك تتميز به في حياتك اليومية؟", options: [
-                    { text: "ذكاء تحليلي ومنطقي (بارع في التخطيط، حل الألغاز، وفهم الأمور المعقدة)", points: { "ذكي": 2 } },
-                    { text: "سرعة بديهة وارتجال (أجد مخرجاً وكلاماً ذكياً في أي موقف محرج فوراً)", points: { "ذكي": 1, "اجتماعي": 1 } },
-                    { text: "ذكاء عاطفي واجتماعي (أفهم مشاعر الناس ونواياهم بسرعة بمجرد النظر إليهم)", points: { "متعاطف": 2 } },
-                    { text: "ذكاء عملي وغريزي (أتعلم باللمس والممارسة وأشعر بالخطر قبل حدوثه)", points: { "غريزي": 2 } }
-                ]
-            },
-            {
-                text: "كيف تنظر للقوانين والقواعد والتقاليد من حولك؟", options: [
-                    { text: "ألتزم بها تماماً وأحترم النظام لأن الفوضى تدمر كل شيء", points: { "منضبط": 2 } },
-                    { text: "أتبع قناعاتي الخاصة فقط، وإذا كانت القوانين غبية أو تقيد حريتي أضرب بها عرض الحائط", points: { "متمرد": 2 } },
-                    { text: "أسايرها علناً خوفاً من المشاكل، لكنني أتحايل عليها في الخفاء لمصلحتي", points: { "مراوغ": 1 } },
-                    { text: "أسعى دائماً لتغييرها وتطويرها لأنها قديمة ولا تناسب الواقع الحالي", points: { "ثوري": 2 } }
-                ]
-            },
-            {
-                text: "إذا واجهت موضوعاً غامضاً أو سراً لا تعرفه، كيف يعمل عقلك؟", options: [
-                    { text: "يصيبني فضول قاتل، ولا أرتاح حتى أبحث وأعرف الحقيقة كاملة", points: { "فضولي": 2 } },
-                    { text: "أربط الخيوط وأحلل التفاصيل ببطء حتى تتضح الصورة أمامي تلقائياً", points: { "محلل": 2 } },
-                    { text: "لا يهمني الأمر إطلاقاً، ولا أتدخل فيما لا يعنيني", points: { "غير مكترث": 1 } },
-                    { text: "أسأل الشخص مباشرة دون لف أو دوران لأقطع الشك باليقين", points: { "جريء": 1 } }
-                ]
-            },
-            {
-                text: "ما هي الفلسفة العقلية التي تطبقها في إدارة حياتك؟", options: [
-                    { text: "'الغاية تبرر الوسيلة' (المهم هو النتيجة والوصول للهدف مهما كانت التضحيات)", points: { "طموح": 2, "قاسٍ": 1 } },
-                    { text: "'عش يومك بحرية وبساطة' (الحياة قصيرة ولا داعي لتعقيد الأمور بالتفكير الزائد)", points: { "حر": 3 } },
-                    { text: "'احترام الذات والقوة هما كل شيء' (في هذا العالم، الضعيف لا مكان له)", points: { "قوي": 2, "فخور": 1 } },
-                    { text: "'العقل والهدوء هما السلاح الأقوى' (من يفقد أعصابه وتركيزه يخسر دائماً)", points: { "حكيم": 2, "منضبط": 1 } }
-                ]
-            }
+            { text: "ما هو لون شعرك الحالي؟", options: [
+                { text: "أسود داكن أو بني غامق جداً", points: { "هادئ": 1, "غامض": 1 } },
+                { text: "بني فاتح، كستنائي، أو مصبوغ/ملون", points: { "اجتماعي": 1, "طبيعي": 1 } },
+                { text: "أشقر، أحمر، أو مائل للأبيض/الرمادي", points: { "حر": 1, "جريء": 1 } },
+                { text: "أسود نفاث وثائر", points: { "متمرد": 1, "قوي": 1 } }
+            ] },
+            { text: "كيف هي بنيتك الجسدية؟", options: [
+                { text: "متوسط الطول وبنية عادية", points: { "متوازن": 1 } },
+                { text: "طويل القامة وبنية قوية", points: { "قوي": 2 } },
+                { text: "نحيف أو رشيق", points: { "ذكي": 1, "سريع": 1 } },
+                { text: "قصير القامة وأصغر من عمري", points: { "متواضع": 1, "عنيد": 1 } }
+            ] },
+            { text: "ما هي السمة الأبرز في ملامح وجهك؟", options: [
+                { text: "عيون حادة ونظرات جادة", points: { "حاد": 1, "جاد": 1 } },
+                { text: "عيون واسعة وملامح هادئة", points: { "طيب": 1, "هادئ": 1 } },
+                { text: "ملامح بارزة وعلامة مميزة", points: { "مميز": 1, "واثق": 1 } },
+                { text: "ملامح غامضة وغير معبرة", points: { "غامض": 2 } }
+            ] },
+            { text: "كيف هو ستايل لباسك المعتاد؟", options: [
+                { text: "كاجوال ومريح جداً", points: { "حر": 1, "بسيط": 1 } },
+                { text: "كلاسيكي ومرتب", points: { "منظم": 1, "أنيق": 1 } },
+                { text: "بسيط ولا يهمني المظهر", points: { "غير مكترث": 1 } },
+                { text: "داكن وغامق دائماً", points: { "جاد": 1, "غامض": 1 } }
+            ] },
+            { text: "ما هو الانطباع الأول الذي يأخذه الناس عنك؟", options: [
+                { text: "هادئ وخجول", points: { "انطوائي": 1 } },
+                { text: "مغرور وبارد", points: { "واثق": 1, "منعزل": 1 } },
+                { text: "اجتماعي وبشوش", points: { "اجتماعي": 2 } },
+                { text: "غامض", points: { "غامض": 1 } }
+            ] },
+            { text: "كيف تتعامل مع الضغوطات؟", options: [
+                { text: "أنفجر غضباً أو أحزن", points: { "عاطفي": 2 } },
+                { text: "أكبت كل شيء بداخلي", points: { "منضبط": 1, "بارد": 1 } },
+                { text: "أتعامل بهدوء وصبر", points: { "حكيم": 2 } },
+                { text: "أهرب بالضحك أو النوم", points: { "مرن": 1 } }
+            ] },
+            { text: "ما هو دافعك الأكبر في الحياة؟", options: [
+                { text: "حماية عائلتي", points: { "مخلص": 3 } },
+                { text: "تحقيق طموحي", points: { "طموح": 3 } },
+                { text: "البحث عن راحة البال", points: { "حر": 3 } },
+                { text: "الفضول والتجارب الجديدة", points: { "فضولي": 2 } }
+            ] },
+            { text: "كيف تصف علاقتك بالناس؟", options: [
+                { text: "اجتماعي جداً", points: { "اجتماعي": 2 } },
+                { text: "انطوائي", points: { "منعزل": 2 } },
+                { text: "قائد بطبعي", points: { "قائد": 2 } },
+                { text: "مستمع وفي", points: { "وفي": 2 } }
+            ] },
+            { text: "ما هي نقطة ضعفك النفسية؟", options: [
+                { text: "التسرع والاندفاع", points: { "مندفع": 2 } },
+                { text: "التفكير الزائد", points: { "محلل": 1, "قلق": 1 } },
+                { text: "الكسل", points: { "كسول": 2 } },
+                { text: "العناد", points: { "عنيد": 2 } }
+            ] },
+            { text: "كيف تتصرف عندما يُغدر بك؟", options: [
+                { text: "أنتقم بشدة", points: { "منتقم": 2 } },
+                { text: "أقطع علاقتي به", points: { "حاد": 1, "واثق": 1 } },
+                { text: "أواجهه ثم أسامح", points: { "عاطفي": 1, "متسامح": 1 } },
+                { text: "أسامح بسهولة", points: { "طيب": 2 } }
+            ] },
+            { text: "عند حل مشكلة مفاجئة، كيف تتصرف؟", options: [
+                { text: "أعتمد على حدسي وغريزتي", points: { "حدسي": 2 } },
+                { text: "أحلل بهدوء لأجد حلاً", points: { "محلل": 2 } },
+                { text: "أستشير الآخرين", points: { "اجتماعي": 1 } },
+                { text: "أصاب بالبلوك العقلي", points: { "متردد": 1 } }
+            ] },
+            { text: "ما نوع الذكاء الذي تتميز به؟", options: [
+                { text: "تحليلي ومنطقي", points: { "ذكي": 2 } },
+                { text: "سرعة بديهة وارتجال", points: { "ذكي": 1, "اجتماعي": 1 } },
+                { text: "عاطفي واجتماعي", points: { "متعاطف": 2 } },
+                { text: "عملي وغريزي", points: { "غريزي": 2 } }
+            ] },
+            { text: "كيف تنظر للقوانين والقواعد؟", options: [
+                { text: "ألتزم بها تماماً", points: { "منضبط": 2 } },
+                { text: "أتبع قناعاتي فقط", points: { "متمرد": 2 } },
+                { text: "أسايرها علناً", points: { "مراوغ": 1 } },
+                { text: "أسعى لتغييرها", points: { "ثوري": 2 } }
+            ] },
+            { text: "عندما تواجه سراً غامضاً؟", options: [
+                { text: "أبحث حتى أعرف الحقيقة", points: { "فضولي": 2 } },
+                { text: "أربط الخيوط وأحلل", points: { "محلل": 2 } },
+                { text: "لا يهمني الأمر", points: { "غير مكترث": 1 } },
+                { text: "أسأل مباشرة", points: { "جريء": 1 } }
+            ] },
+            { text: "ما هي فلسفتك في الحياة؟", options: [
+                { text: "الغاية تبرر الوسيلة", points: { "طموح": 2, "قاسٍ": 1 } },
+                { text: "عش يومك بحرية", points: { "حر": 3 } },
+                { text: "القوة هي كل شيء", points: { "قوي": 2, "فخور": 1 } },
+                { text: "العقل والهدوء", points: { "حكيم": 2, "منضبط": 1 } }
+            ] }
         ];
 
         // ============================================
-        // منطق الاختبار (دوال المعدلة للمشاركة)
+        // منطق الاختبار
         // ============================================
         let userGender = null;
         let currentQuestion = 0;
         let userAnswers = [];
         let userScores = {};
 
-        // دوال مساعدة
         function getAnimeName(animeCode) {
             const animeNames = {
                 "attack": "هجوم العمالقة",
@@ -601,9 +531,7 @@
             return animeNames[animeCode] || animeCode;
         }
 
-        // ============================================
-        // دوال المشاركة المعدلة - ترسل رابط مدونتك
-        // ============================================
+        // دوال المشاركة
         function shareOnFacebook(characterName) {
             const url = MY_BLOG_URL;
             const text = `🎭 اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
@@ -622,6 +550,48 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         }
 
+        function shareOnInstagram(characterName, characterImage) {
+            const text = `🎭 شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن: ${MY_BLOG_URL}`;
+            
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.src = characterImage;
+            
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height + 70;
+                
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, img.height, canvas.width, 70);
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                
+                ctx.fillStyle = '#ffd93d';
+                ctx.font = 'bold 18px Tajawal';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 3;
+                ctx.fillText(characterName, 15, img.height + 30);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '14px Tajawal';
+                ctx.fillText('شخصية الأنمي الشبيهة بي', 15, img.height + 55);
+                
+                const link = document.createElement('a');
+                link.download = `anime_character_${characterName}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                alert('✅ تم تحميل الصورة! يمكنك الآن فتح انستغرام ومشاركتها مع النص:\n\n' + text);
+            };
+            
+            img.onerror = function() {
+                window.open(`https://www.instagram.com/`, '_blank');
+                alert('📝 انسخ هذا النص وشاركه على انستغرام:\n\n' + text);
+            };
+        }
+
         function copyLink() {
             const url = MY_BLOG_URL;
             navigator.clipboard.writeText(url).then(() => {
@@ -631,27 +601,14 @@
             });
         }
 
-        function updateProgress() {
-            const fill = document.querySelector('.progress-fill');
-            const text = document.querySelector('.progress-text');
-            if (fill && text) {
-                const percent = ((currentQuestion) / questions.length) * 100;
-                fill.style.width = `${percent}%`;
-                text.innerText = `السؤال ${currentQuestion} من ${questions.length}`;
-            }
-        }
-
         function selectOptionAndNext(optionIndex) {
             userAnswers[currentQuestion] = optionIndex;
-
             const q = questions[currentQuestion];
             const points = q.options[optionIndex].points;
             for (const [trait, value] of Object.entries(points)) {
                 userScores[trait] = (userScores[trait] || 0) + value;
             }
-
             currentQuestion++;
-
             if (currentQuestion >= questions.length) {
                 calculateResult();
             } else {
@@ -662,17 +619,17 @@
         function renderStart() {
             const app = document.getElementById('app');
             app.innerHTML = `
-            <div class="start-screen">
-              <h1><i class="fas fa-mask"></i> اختبار شخصية الأنمي <i class="fas fa-dragon"></i></h1>
-              <div class="subtitle">اكتشف أي شخصية أنمي تشبهك!</div>
-              <h2 style="text-align:center;">اختر جنسك:</h2>
-              <div class="gender-buttons">
-                <button class="btn gender-btn" onclick="selectGender('male')"><i class="fas fa-mars"></i> ذكر</button>
-                <button class="btn gender-btn" onclick="selectGender('female')"><i class="fas fa-venus"></i> أنثى</button>
-              </div>
-              <footer>سيتم عرض شخصية أنمي تناسب جنسك بناءً على إجاباتك</footer>
-            </div>
-          `;
+                <div class="start-screen">
+                    <h1><i class="fas fa-mask"></i> اختبار شخصية الأنمي <i class="fas fa-dragon"></i></h1>
+                    <div class="subtitle">اكتشف أي شخصية أنمي تشبهك!</div>
+                    <h2 style="text-align:center;">اختر جنسك:</h2>
+                    <div class="gender-buttons">
+                        <button class="btn gender-btn" onclick="selectGender('male')"><i class="fas fa-mars"></i> ذكر</button>
+                        <button class="btn gender-btn" onclick="selectGender('female')"><i class="fas fa-venus"></i> أنثى</button>
+                    </div>
+                    <footer>سيتم عرض شخصية أنمي تناسب جنسك بناءً على إجاباتك</footer>
+                </div>
+            `;
         }
 
         function selectGender(gender) {
@@ -688,42 +645,36 @@
                 calculateResult();
                 return;
             }
-
             const q = questions[currentQuestion];
             let optionsHtml = '';
             q.options.forEach((opt, idx) => {
                 optionsHtml += `
-              <div class="option" onclick="selectOptionAndNext(${idx})">
-                <div class="option-icon"><i class="fas fa-${idx === 0 ? 'circle' : (idx === 1 ? 'dot-circle' : (idx === 2 ? 'circle-notch' : 'check-circle'))}"></i></div>
-                <div class="option-text">${opt.text}</div>
-              </div>
-            `;
+                    <div class="option" onclick="selectOptionAndNext(${idx})">
+                        <div class="option-icon"><i class="fas fa-${idx === 0 ? 'circle' : (idx === 1 ? 'dot-circle' : (idx === 2 ? 'circle-notch' : 'check-circle'))}"></i></div>
+                        <div class="option-text">${opt.text}</div>
+                    </div>
+                `;
             });
-
             const app = document.getElementById('app');
             app.innerHTML = `
-            <div class="quiz-screen">
-              <div class="progress-container">
-                <div class="progress-bar"><div class="progress-fill" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
-                <div class="progress-text">السؤال ${currentQuestion + 1} من ${questions.length}</div>
-              </div>
-              <div class="question-text">
-                <i class="fas fa-question-circle"></i> ${q.text}
-              </div>
-              <div class="options">
-                ${optionsHtml}
-              </div>
-            </div>
-          `;
+                <div class="quiz-screen">
+                    <div class="progress-container">
+                        <div class="progress-bar"><div class="progress-fill" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
+                        <div class="progress-text">السؤال ${currentQuestion + 1} من ${questions.length}</div>
+                    </div>
+                    <div class="question-text">
+                        <i class="fas fa-question-circle"></i> ${q.text}
+                    </div>
+                    <div class="options">${optionsHtml}</div>
+                </div>
+            `;
         }
 
         function calculateResult() {
             let filteredChars = characters.filter(c => c.gender === userGender);
             if (filteredChars.length === 0) filteredChars = characters;
-
             let bestChar = null;
             let bestScore = -1;
-
             for (const char of filteredChars) {
                 let score = 0;
                 for (const trait of char.traits) {
@@ -746,7 +697,6 @@
                     bestChar = char;
                 }
             }
-
             if (!bestChar) bestChar = filteredChars[0];
             renderResult(bestChar);
         }
@@ -754,29 +704,28 @@
         function renderResult(character) {
             const app = document.getElementById('app');
             app.innerHTML = `
-            <div class="result-screen">
-              <div class="result-card">
-                <h1><i class="fas fa-trophy"></i> نتيجتك <i class="fas fa-star"></i></h1>
-                <img src="${character.image}" alt="${character.displayName}" onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
-                <div class="result-name">${character.displayName}</div>
-                <div class="result-anime"><i class="fas fa-film"></i> ${getAnimeName(character.anime)}</div>
-                <div class="result-similarity">
-                  <i class="fas fa-hand-peace"></i> <strong>وجه التشابه:</strong><br>
-                  ${character.similarity}
+                <div class="result-screen">
+                    <div class="result-card">
+                        <h1><i class="fas fa-trophy"></i> نتيجتك <i class="fas fa-star"></i></h1>
+                        <img src="${character.image}" alt="${character.displayName}" onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+                        <div class="result-name">${character.displayName}</div>
+                        <div class="result-anime"><i class="fas fa-film"></i> ${getAnimeName(character.anime)}</div>
+                        <div class="result-similarity">
+                            <i class="fas fa-hand-peace"></i> <strong>وجه التشابه:</strong><br>
+                            ${character.similarity}
+                        </div>
+                        <div class="share-buttons">
+                            <div class="share-btn facebook" onclick="shareOnFacebook('${character.displayName}')"><i class="fab fa-facebook-f"></i> فيسبوك</div>
+                            <div class="share-btn twitter" onclick="shareOnTwitter('${character.displayName}')"><i class="fab fa-twitter"></i> تويتر</div>
+                            <div class="share-btn whatsapp" onclick="shareOnWhatsapp('${character.displayName}')"><i class="fab fa-whatsapp"></i> واتساب</div>
+                            <div class="share-btn instagram" onclick="shareOnInstagram('${character.displayName}', '${character.image}')"><i class="fab fa-instagram"></i> انستغرام</div>
+                            <div class="share-btn copy-link" onclick="copyLink()"><i class="fas fa-link"></i> نسخ الرابط</div>
+                        </div>
+                        <button class="btn restart-btn" onclick="restartQuiz()"><i class="fas fa-redo-alt"></i> ابدأ من جديد</button>
+                    </div>
+                    <footer>جميع الصور والحقوق مملوكة لأصحابها، تستخدم لأغراض توضيحية فقط</footer>
                 </div>
-
-                <div class="share-buttons">
-                  <div class="share-btn facebook" onclick="shareOnFacebook('${character.displayName}')"><i class="fab fa-facebook-f"></i> فيسبوك</div>
-                  <div class="share-btn twitter" onclick="shareOnTwitter('${character.displayName}')"><i class="fab fa-twitter"></i> تويتر</div>
-                  <div class="share-btn whatsapp" onclick="shareOnWhatsapp('${character.displayName}')"><i class="fab fa-whatsapp"></i> واتساب</div>
-                  <div class="share-btn copy-link" onclick="copyLink()"><i class="fas fa-link"></i> نسخ الرابط</div>
-                </div>
-
-                <button class="btn restart-btn" onclick="restartQuiz()"><i class="fas fa-redo-alt"></i> ابدأ من جديد</button>
-              </div>
-              <footer>جميع الصور والحقوق مملوكة لأصحابها، تستخدم لأغراض توضيحية فقط</footer>
-            </div>
-          `;
+            `;
         }
 
         function restartQuiz() {
@@ -787,7 +736,6 @@
             renderStart();
         }
 
-        // بدء التشغيل
         renderStart();
     </script>
 </body>

@@ -7,7 +7,7 @@
 <meta property="og:title" content="اختبار شخصية الأنمي - اكتشف من يشبهك!" />
 <meta property="og:description" content="أجب على 15 سؤالاً واكتشف أي شخصية أنمي تشبهك من بين 80 شخصية!" />
 <meta property="og:image" content="https://i.ibb.co/6JcyjvSc/eren.jpg" />
-<meta property="og:url" content="https://tsali2.blogspot.com/p/margin-0-padding-0-box-sizing-border.html" />
+<meta property="og:url" content="" id="og-url" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -130,6 +130,7 @@ h1 { font-size: 26px; }
 }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <canvas id="particles-canvas"></canvas>
@@ -145,6 +146,8 @@ h1 { font-size: 26px; }
 </div>
 
 <script>
+// Set OG URL dynamically
+document.getElementById("og-url").content = window.location.href;
 // جسيمات متحركة
 const canvas = document.getElementById('particles-canvas');
 const ctx = canvas.getContext('2d');
@@ -166,7 +169,7 @@ function animateParticles() {
 }
 animateParticles();
 
-const MY_BLOG_URL = "https://tsali2.blogspot.com/p/margin-0-padding-0-box-sizing-border.html";
+const MY_BLOG_URL = window.location.href;
 
 const characters = [
     { name: "eren", displayName: "إيرين ييغر", anime: "attack", traits: ["حرية", "إنتقام", "عمالقة"], similarity: "السعي للحرية مهما كان الثمن", image: "https://i.ibb.co/6JcyjvSc/eren.jpg", gender: "male" },
@@ -359,27 +362,27 @@ function getAnimeName(animeCode) {
 }
 
 function shareOnFacebook(characterName) {
-    const url = MY_BLOG_URL;
-    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank');
+    const resultUrl = MY_BLOG_URL.split('?')[0] + `?result=${encodeURIComponent(characterName)}&anime=${encodeURIComponent(getAnimeName(bestChar.anime))}&percent=${similarityPercent}`;
+    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName} (${similarityPercent}%)! اختبر شخصيتك الآن:`;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(resultUrl)}&quote=${encodeURIComponent(text)}`, '_blank');
 }
 
 function shareOnTwitter(characterName) {
-    const url = MY_BLOG_URL;
-    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    const resultUrl = MY_BLOG_URL.split('?')[0] + `?result=${encodeURIComponent(characterName)}&anime=${encodeURIComponent(getAnimeName(bestChar.anime))}&percent=${similarityPercent}`;
+    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName} (${similarityPercent}%)! اختبر شخصيتك الآن:`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(resultUrl)}`, '_blank');
 }
 
 function shareOnWhatsapp(characterName) {
-    const url = MY_BLOG_URL;
-    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن: ${url}`;
+    const resultUrl = MY_BLOG_URL.split('?')[0] + `?result=${encodeURIComponent(characterName)}&anime=${encodeURIComponent(getAnimeName(bestChar.anime))}&percent=${similarityPercent}`;
+    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName} (${similarityPercent}%)! اختبر شخصيتك الآن: ${resultUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function shareOnTelegram(characterName) {
-    const url = MY_BLOG_URL;
-    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName}! اختبر شخصيتك الآن:`;
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+    const resultUrl = MY_BLOG_URL.split('?')[0] + `?result=${encodeURIComponent(characterName)}&anime=${encodeURIComponent(getAnimeName(bestChar.anime))}&percent=${similarityPercent}`;
+    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${characterName} (${similarityPercent}%)! اختبر شخصيتك الآن:`;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(resultUrl)}&text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function shareOnInstagram() {
@@ -387,7 +390,8 @@ function shareOnInstagram() {
 }
 
 function copyLink() {
-    const text = `اختبار شخصية الأنمي - اكتشف من يشبهك! ${MY_BLOG_URL}`;
+    const resultUrl = MY_BLOG_URL.split('?')[0] + `?result=${encodeURIComponent(bestChar.displayName)}&anime=${encodeURIComponent(getAnimeName(bestChar.anime))}&percent=${similarityPercent}`;
+    const text = `اكتشفت أن شخصية الأنمي الشبيهة بي هي ${bestChar.displayName} (${similarityPercent}%)! اختبر شخصيتك الآن: ${resultUrl}`;
     navigator.clipboard.writeText(text).then(() => { alert('تم نسخ الرابط بنجاح!'); }).catch(() => { alert('فشل النسخ، يمكنك نسخ الرابط يدوياً.'); });
 }
 
@@ -532,16 +536,27 @@ function renderRevealScreen() {
 function handleRevealClick() {
     if (!revealClicked) {
         revealClicked = true;
-        // Show ad
-        const adScript = document.createElement('script');
-        adScript.src = 'https://pl29540830.effectivecpmnetwork.com/2e/f9/ab/2ef9ab40aa012fe646fc36b5990db003.js';
-        adScript.async = true;
-        document.body.appendChild(adScript);
-        // Show countdown
-        showCountdown();
+        showAdPopup();
     } else {
         showCountdown();
     }
+}
+
+function showAdPopup() {
+    const overlay = document.getElementById('ad-popup-overlay');
+    const countdownEl = document.getElementById('ad-countdown');
+    overlay.style.display = 'flex';
+    let count = 10;
+    countdownEl.textContent = count;
+    const interval = setInterval(() => {
+        count--;
+        countdownEl.textContent = count;
+        if (count <= 0) {
+            clearInterval(interval);
+            overlay.style.display = 'none';
+            showCountdown();
+        }
+    }, 1000);
 }
 
 function showCountdown() {
@@ -619,5 +634,17 @@ function restartQuiz() {
 
 renderStart();
 </script>
+
+<!-- Ad Popup -->
+<div id="ad-popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:2000; align-items:center; justify-content:center; flex-direction:column;">
+    <div style="background:var(--glass-bg); backdrop-filter:blur(20px); border-radius:30px; padding:30px; max-width:500px; width:90%; text-align:center; border:1px solid var(--glass-border); box-shadow:var(--glass-shadow); position:relative;">
+        <div style="font-size:20px; font-weight:800; color:var(--secondary); margin-bottom:20px;"><i class="fas fa-ad"></i> انتظر لحظة...</div>
+        <div id="ad-popup-content" style="margin:20px 0; min-height:250px; display:flex; align-items:center; justify-content:center;"></div>
+        <div id="ad-countdown" style="font-size:48px; font-weight:800; color:var(--primary); margin:15px 0;">10</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.6); margin-top:10px;">جاري تحميل نتيجتك...</div>
+    </div>
+</div>
+<script src="https://pl29518194.effectivecpmnetwork.com/7d/cd/47/7dcd47ad8f3da4e4de68d86a292badb3.js"></script>
+
 </body>
 </html>
